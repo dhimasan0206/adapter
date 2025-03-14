@@ -1,0 +1,665 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "Integration Adapter", "version": "1.0.0", "contact": {} },
+  "servers": [{ "url": "localhost:8080" }],
+  "paths": {
+    "/inventories/update": {
+      "post": {
+        "tags": ["Inventories"],
+        "summary": "Update Stock Level",
+        "description": "Top level\n\n| **Field** | **Description** |\n| --- | --- |\n| `id` | REQUIRED. string, UUID. |\n| `object` | `INVENTORY` |\n| `action` | `UPDATE` |\n| `metadata` | `metadata` object. |\n| `inventories` | An array of `inventory` object |\n\n`metadata` Object\n\n| **Field** | **Description** |\n| --- | --- |\n| `store_code` | string. |\n| merchant_code | string. |\n\n`inventories`\n\n| **Field** | **Description** |\n| --- | --- |\n| `product_id` | string. Company product id. |\n| `variant_id` | string. Company product's variant id. |\n| `sku` | string. Company product's variant sku. |\n| `channel_product_id` | string. Channel product id. |\n| `channel_variant_id` | string. Channel product's variant id. |\n| `channel_sku` | string. Channel product's variant sku. |\n| `location_code` | string. Company location code. |\n| `channel_location_code` | string. Channel location code. |\n| `exact_stock` | integer. exact stock. replace currently available stock value. |\n| `delta_stock` | integer. delta stock. positive add currently available stock, negative reduce currently available stock. |",
+        "operationId": "updateStockLevel",
+        "parameters": [
+          {
+            "name": "signature",
+            "in": "header",
+            "schema": { "type": "string", "example": "signature" },
+            "description": "Requests Signature"
+          },
+          {
+            "name": "signature-time",
+            "in": "header",
+            "schema": { "type": "string", "example": "signature-time" },
+            "description": "Requests Signature Time"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "example": "request-id" },
+                  "requests": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "channel_location_code": {
+                          "type": "string",
+                          "example": "channel-location-code"
+                        },
+                        "channel_location_id": {
+                          "type": "string",
+                          "example": "channel-location-id"
+                        },
+                        "channel_product_id": {
+                          "type": "string",
+                          "example": "channel-product-id"
+                        },
+                        "channel_product_variant_id": {
+                          "type": "string",
+                          "example": "channel-product-variant-id"
+                        },
+                        "channel_product_variant_sku": {
+                          "type": "string",
+                          "example": "channel-product-variant-sku"
+                        },
+                        "delta_stock": { "type": "number", "example": -1 },
+                        "exact_stock": { "type": "number", "example": 100 },
+                        "location_code": {
+                          "type": "string",
+                          "example": "location-code"
+                        },
+                        "location_id": {
+                          "type": "string",
+                          "example": "location-id"
+                        },
+                        "product_id": {
+                          "type": "string",
+                          "example": "product-id"
+                        },
+                        "product_variant_id": {
+                          "type": "string",
+                          "example": "product-variant-id"
+                        },
+                        "product_variant_sku": {
+                          "type": "string",
+                          "example": "product-variant-sku"
+                        }
+                      }
+                    },
+                    "example": [
+                      {
+                        "channel_location_code": "channel-location-code",
+                        "channel_location_id": "channel-location-id",
+                        "channel_product_id": "channel-product-id",
+                        "channel_product_variant_id": "channel-product-variant-id",
+                        "channel_product_variant_sku": "channel-product-variant-sku",
+                        "delta_stock": -1,
+                        "exact_stock": 100,
+                        "location_code": "location-code",
+                        "location_id": "location-id",
+                        "product_id": "product-id",
+                        "product_variant_id": "product-variant-id",
+                        "product_variant_sku": "product-variant-sku"
+                      }
+                    ]
+                  },
+                  "store": {
+                    "type": "object",
+                    "properties": {
+                      "code": { "type": "string", "example": "store-code" },
+                      "id": { "type": "string", "example": "store-id" }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Update Stock Level": {
+                  "value": {
+                    "id": "request-id",
+                    "requests": [
+                      {
+                        "channel_location_code": "channel-location-code",
+                        "channel_location_id": "channel-location-id",
+                        "channel_product_id": "channel-product-id",
+                        "channel_product_variant_id": "channel-product-variant-id",
+                        "channel_product_variant_sku": "channel-product-variant-sku",
+                        "delta_stock": -1,
+                        "exact_stock": 100,
+                        "location_code": "location-code",
+                        "location_id": "location-id",
+                        "product_id": "product-id",
+                        "product_variant_id": "product-variant-id",
+                        "product_variant_sku": "product-variant-sku"
+                      }
+                    ],
+                    "store": { "code": "store-code", "id": "store-id" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string", "example": "error-code" },
+                        "message": { "type": "string", "example": "message" }
+                      }
+                    },
+                    "id": { "type": "string", "example": "request-id" },
+                    "message": { "type": "string", "example": "message" },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "channel_location_code": {
+                            "type": "string",
+                            "example": "channel-location-code"
+                          },
+                          "channel_location_id": {
+                            "type": "string",
+                            "example": "channel-location-id"
+                          },
+                          "channel_product_id": {
+                            "type": "string",
+                            "example": "channel-product-id"
+                          },
+                          "channel_product_variant_id": {
+                            "type": "string",
+                            "example": "channel-product-variant-id"
+                          },
+                          "channel_product_variant_sku": {
+                            "type": "string",
+                            "example": "channel-product-variant-sku"
+                          },
+                          "location_code": {
+                            "type": "string",
+                            "example": "location-code"
+                          },
+                          "location_id": {
+                            "type": "string",
+                            "example": "locaiton-id"
+                          },
+                          "message": { "type": "string", "example": "message" },
+                          "product_id": {
+                            "type": "string",
+                            "example": "product-id"
+                          },
+                          "product_variant_id": {
+                            "type": "string",
+                            "example": "product-variant-id"
+                          },
+                          "product_variant_sku": {
+                            "type": "string",
+                            "example": "product-variant-sku"
+                          },
+                          "status": { "type": "string", "example": "status" },
+                          "success": { "type": "boolean", "example": true },
+                          "timestamp": {
+                            "type": "number",
+                            "example": 1234567890
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "channel_location_code": "channel-location-code",
+                          "channel_location_id": "channel-location-id",
+                          "channel_product_id": "channel-product-id",
+                          "channel_product_variant_id": "channel-product-variant-id",
+                          "channel_product_variant_sku": "channel-product-variant-sku",
+                          "location_code": "location-code",
+                          "location_id": "locaiton-id",
+                          "message": "message",
+                          "product_id": "product-id",
+                          "product_variant_id": "product-variant-id",
+                          "product_variant_sku": "product-variant-sku",
+                          "status": "status",
+                          "success": true,
+                          "timestamp": 1234567890
+                        }
+                      ]
+                    },
+                    "status": { "type": "string", "example": "COMPLETED" },
+                    "store": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string", "example": "store-code" },
+                        "id": { "type": "string", "example": "store-id" }
+                      }
+                    },
+                    "success": { "type": "boolean", "example": true },
+                    "timestamp": { "type": "number", "example": 9876543210 }
+                  }
+                },
+                "examples": {
+                  "OK": {
+                    "value": {
+                      "error": { "code": "error-code", "message": "message" },
+                      "id": "request-id",
+                      "message": "message",
+                      "results": [
+                        {
+                          "channel_location_code": "channel-location-code",
+                          "channel_location_id": "channel-location-id",
+                          "channel_product_id": "channel-product-id",
+                          "channel_product_variant_id": "channel-product-variant-id",
+                          "channel_product_variant_sku": "channel-product-variant-sku",
+                          "location_code": "location-code",
+                          "location_id": "locaiton-id",
+                          "message": "message",
+                          "product_id": "product-id",
+                          "product_variant_id": "product-variant-id",
+                          "product_variant_sku": "product-variant-sku",
+                          "status": "status",
+                          "success": true,
+                          "timestamp": 1234567890
+                        }
+                      ],
+                      "status": "COMPLETED",
+                      "store": { "code": "store-code", "id": "store-id" },
+                      "success": true,
+                      "timestamp": 9876543210
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string", "example": "400" },
+                        "message": {
+                          "type": "string",
+                          "example": "bad request"
+                        }
+                      }
+                    },
+                    "id": { "type": "string", "example": "request-id" },
+                    "message": { "type": "string", "example": "message" },
+                    "status": { "type": "string", "example": "ERROR" },
+                    "store": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string", "example": "store-code" },
+                        "id": { "type": "string", "example": "store-id" }
+                      }
+                    },
+                    "success": { "type": "boolean", "example": false },
+                    "timestamp": { "type": "number", "example": 1234567890 }
+                  }
+                },
+                "examples": {
+                  "Bad Request": {
+                    "value": {
+                      "error": { "code": "400", "message": "bad request" },
+                      "id": "request-id",
+                      "message": "message",
+                      "status": "ERROR",
+                      "store": { "code": "store-code", "id": "store-id" },
+                      "success": false,
+                      "timestamp": 1234567890
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string", "example": "429" },
+                        "message": {
+                          "type": "string",
+                          "example": "too many requests"
+                        }
+                      }
+                    },
+                    "id": { "type": "string", "example": "request-id" },
+                    "message": { "type": "string", "example": "message" },
+                    "status": { "type": "string", "example": "ERROR" },
+                    "store": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string", "example": "store-code" },
+                        "id": { "type": "string", "example": "store-id" }
+                      }
+                    },
+                    "success": { "type": "boolean", "example": false },
+                    "timestamp": { "type": "number", "example": 1234567890 }
+                  }
+                },
+                "examples": {
+                  "Too Many Requests": {
+                    "value": {
+                      "error": {
+                        "code": "429",
+                        "message": "too many requests"
+                      },
+                      "id": "request-id",
+                      "message": "message",
+                      "status": "ERROR",
+                      "store": { "code": "store-code", "id": "store-id" },
+                      "success": false,
+                      "timestamp": 1234567890
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string", "example": "500" },
+                        "message": {
+                          "type": "string",
+                          "example": "internal server error"
+                        }
+                      }
+                    },
+                    "id": { "type": "string", "example": "request-id" },
+                    "message": { "type": "string", "example": "message" },
+                    "status": { "type": "string", "example": "ERROR" },
+                    "store": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string", "example": "store-code" },
+                        "id": { "type": "string", "example": "store-id" }
+                      }
+                    },
+                    "success": { "type": "boolean", "example": false },
+                    "timestamp": { "type": "number", "example": 1234567890 }
+                  }
+                },
+                "examples": {
+                  "Internal Server Error": {
+                    "value": {
+                      "error": {
+                        "code": "500",
+                        "message": "internal server error"
+                      },
+                      "id": "request-id",
+                      "message": "message",
+                      "status": "ERROR",
+                      "store": { "code": "store-code", "id": "store-id" },
+                      "success": false,
+                      "timestamp": 1234567890
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts": {
+      "post": {
+        "summary": "Accounts",
+        "description": "| Field | Description |\n| --- | --- |\n| `id` | UUID. |\n| `object` | string. ACCOUNT |\n| action | string. CONNECT, DISCONNECT, RECONNECT |\n| accounts | account credential object |\n\naccount object\n\n| **Field** | **Description** |\n| --- | --- |\n| data | encrypted credential data |",
+        "operationId": "accounts",
+        "parameters": [
+          {
+            "name": "signature",
+            "in": "header",
+            "schema": { "type": "string", "example": "" },
+            "description": "Request's signature"
+          },
+          {
+            "name": "signature-time",
+            "in": "header",
+            "schema": { "type": "string", "example": "" },
+            "description": "Request's signature time"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "accounts": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "string",
+                          "example": "encrypted data"
+                        }
+                      }
+                    },
+                    "example": [{ "data": "encrypted data" }]
+                  },
+                  "action": { "type": "string", "example": "CONNECT" },
+                  "id": { "type": "string", "example": "request-id" },
+                  "object": { "type": "string", "example": "ACCOUNT" }
+                }
+              },
+              "examples": {
+                "Accounts": {
+                  "value": {
+                    "accounts": [{ "data": "encrypted data" }],
+                    "action": "CONNECT",
+                    "id": "request-id",
+                    "object": "ACCOUNT"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } }
+      }
+    },
+    "/products": {
+      "post": {
+        "summary": "Products",
+        "description": "Top level\n\n| **Field** | **Description** |\n| --- | --- |\n| id | string. UUID. |\n| object | string. PRODUCT. |\n| action | string. CREATE. |\n| products | An array of product object. |\n\n`product` object\n\n| **Field** | **Description** |\n| --- | --- |\n|  |  |",
+        "operationId": "products",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": { "type": "string", "example": "CREATE" },
+                  "id": { "type": "string", "example": "request-id" },
+                  "object": { "type": "string", "example": "PRODUCT" },
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string", "example": "product-id" },
+                        "name": { "type": "string", "example": "product name" }
+                      }
+                    },
+                    "example": [{ "id": "product-id", "name": "product name" }]
+                  }
+                }
+              },
+              "examples": {
+                "Products": {
+                  "value": {
+                    "action": "CREATE",
+                    "id": "request-id",
+                    "object": "PRODUCT",
+                    "products": [{ "id": "product-id", "name": "product name" }]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } }
+      }
+    },
+    "/sales-orders": {
+      "post": {
+        "summary": "Sales Orders",
+        "description": "Top level\n\n| **Field** | **Description** |\n| --- | --- |\n| id | string. UUID. |\n| object | string. PRODUCT. |\n| action | string. CREATE. |\n| sales_orders | An array of sales order object. |\n\nsales order object\n\n| **Field** | **Description** |\n| --- | --- |\n|  |  |",
+        "operationId": "salesOrders",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": { "type": "string", "example": "CREATE" },
+                  "id": { "type": "string", "example": "request-id" },
+                  "object": { "type": "string", "example": "SALES_ORDER" },
+                  "sales_orders": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "channel_id": {
+                          "type": "string",
+                          "example": "channel-sales-order-id"
+                        },
+                        "date": { "type": "number", "example": 1234567890 },
+                        "id": { "type": "string", "example": "sales-order-id" }
+                      }
+                    },
+                    "example": [
+                      {
+                        "channel_id": "channel-sales-order-id",
+                        "date": 1234567890,
+                        "id": "sales-order-id"
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Sales Orders": {
+                  "value": {
+                    "action": "CREATE",
+                    "id": "request-id",
+                    "object": "SALES_ORDER",
+                    "sales_orders": [
+                      {
+                        "channel_id": "channel-sales-order-id",
+                        "date": 1234567890,
+                        "id": "sales-order-id"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } }
+      }
+    },
+    "/delivery-orders": {
+      "post": {
+        "summary": "Delivery Orders",
+        "description": "Top level\n\n| **Field** | **Description** |\n| --- | --- |\n| id | string. UUID. |\n| object | string. DELIVERY_ORDER. |\n| action | string. CREATE. |\n| delivery_orders | An array of delivery_order object. |\n\ndelivery_order object\n\n| **Field** | **Description** |\n| --- | --- |\n|  |  |",
+        "operationId": "deliveryOrders",
+        "parameters": [
+          {
+            "name": "signature",
+            "in": "header",
+            "schema": { "type": "string", "example": "" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": { "type": "string", "example": "CREATE" },
+                  "delivery_orders": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "channel_id": {
+                          "type": "string",
+                          "example": "channel-delivery-order-id"
+                        },
+                        "channel_sales_order_id": {
+                          "type": "string",
+                          "example": "channel-sales-order-id"
+                        },
+                        "date": { "type": "number", "example": 1234567890 },
+                        "id": {
+                          "type": "string",
+                          "example": "delivery-order-id"
+                        },
+                        "sales_order_id": {
+                          "type": "string",
+                          "example": "sales-order-id"
+                        }
+                      }
+                    },
+                    "example": [
+                      {
+                        "channel_id": "channel-delivery-order-id",
+                        "channel_sales_order_id": "channel-sales-order-id",
+                        "date": 1234567890,
+                        "id": "delivery-order-id",
+                        "sales_order_id": "sales-order-id"
+                      }
+                    ]
+                  },
+                  "id": { "type": "string", "example": "request-id" },
+                  "object": { "type": "string", "example": "DELIVERY_ORDER" }
+                }
+              },
+              "examples": {
+                "Delivery Orders": {
+                  "value": {
+                    "action": "CREATE",
+                    "delivery_orders": [
+                      {
+                        "channel_id": "channel-delivery-order-id",
+                        "channel_sales_order_id": "channel-sales-order-id",
+                        "date": 1234567890,
+                        "id": "delivery-order-id",
+                        "sales_order_id": "sales-order-id"
+                      }
+                    ],
+                    "id": "request-id",
+                    "object": "DELIVERY_ORDER"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } }
+      }
+    }
+  },
+  "tags": [{ "name": "Inventories" }]
+}

@@ -1,0 +1,826 @@
+openapi: 3.0.3
+info:
+  contact: {}
+  title: Integration Adapter
+  version: 1.0.0
+servers:
+- url: localhost:8080
+tags:
+- name: Inventories
+paths:
+  /inventories/update:
+    post:
+      description: |-
+        Top level
+
+        | **Field** | **Description** |
+        | --- | --- |
+        | `id` | REQUIRED. string, UUID. |
+        | `object` | `INVENTORY` |
+        | `action` | `UPDATE` |
+        | `metadata` | `metadata` object. |
+        | `inventories` | An array of `inventory` object |
+
+        `metadata` Object
+
+        | **Field** | **Description** |
+        | --- | --- |
+        | `store_code` | string. |
+        | merchant_code | string. |
+
+        `inventories`
+
+        | **Field** | **Description** |
+        | --- | --- |
+        | `product_id` | string. Company product id. |
+        | `variant_id` | string. Company product's variant id. |
+        | `sku` | string. Company product's variant sku. |
+        | `channel_product_id` | string. Channel product id. |
+        | `channel_variant_id` | string. Channel product's variant id. |
+        | `channel_sku` | string. Channel product's variant sku. |
+        | `location_code` | string. Company location code. |
+        | `channel_location_code` | string. Channel location code. |
+        | `exact_stock` | integer. exact stock. replace currently available stock value. |
+        | `delta_stock` | integer. delta stock. positive add currently available stock, negative reduce currently available stock. |
+      operationId: updateStockLevel
+      parameters:
+      - description: Requests Signature
+        explode: false
+        in: header
+        name: signature
+        required: false
+        schema:
+          example: signature
+          type: string
+        style: simple
+      - description: Requests Signature Time
+        explode: false
+        in: header
+        name: signature-time
+        required: false
+        schema:
+          example: signature-time
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Update Stock Level:
+                value:
+                  id: request-id
+                  requests:
+                  - channel_location_code: channel-location-code
+                    channel_location_id: channel-location-id
+                    channel_product_id: channel-product-id
+                    channel_product_variant_id: channel-product-variant-id
+                    channel_product_variant_sku: channel-product-variant-sku
+                    delta_stock: -1
+                    exact_stock: 100
+                    location_code: location-code
+                    location_id: location-id
+                    product_id: product-id
+                    product_variant_id: product-variant-id
+                    product_variant_sku: product-variant-sku
+                  store:
+                    code: store-code
+                    id: store-id
+            schema:
+              $ref: '#/components/schemas/updateStockLevel_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                OK:
+                  value:
+                    error:
+                      code: error-code
+                      message: message
+                    id: request-id
+                    message: message
+                    results:
+                    - channel_location_code: channel-location-code
+                      channel_location_id: channel-location-id
+                      channel_product_id: channel-product-id
+                      channel_product_variant_id: channel-product-variant-id
+                      channel_product_variant_sku: channel-product-variant-sku
+                      location_code: location-code
+                      location_id: locaiton-id
+                      message: message
+                      product_id: product-id
+                      product_variant_id: product-variant-id
+                      product_variant_sku: product-variant-sku
+                      status: status
+                      success: true
+                      timestamp: 1234567890
+                    status: COMPLETED
+                    store:
+                      code: store-code
+                      id: store-id
+                    success: true
+                    timestamp: 9876543210
+              schema:
+                $ref: '#/components/schemas/updateStockLevel_200_response'
+          description: OK
+        "400":
+          content:
+            application/json:
+              examples:
+                Bad Request:
+                  value:
+                    error:
+                      code: "400"
+                      message: bad request
+                    id: request-id
+                    message: message
+                    status: ERROR
+                    store:
+                      code: store-code
+                      id: store-id
+                    success: false
+                    timestamp: 1234567890
+              schema:
+                $ref: '#/components/schemas/updateStockLevel_400_response'
+          description: Bad Request
+        "429":
+          content:
+            application/json:
+              examples:
+                Too Many Requests:
+                  value:
+                    error:
+                      code: "429"
+                      message: too many requests
+                    id: request-id
+                    message: message
+                    status: ERROR
+                    store:
+                      code: store-code
+                      id: store-id
+                    success: false
+                    timestamp: 1234567890
+              schema:
+                $ref: '#/components/schemas/updateStockLevel_429_response'
+          description: Too Many Requests
+        "500":
+          content:
+            application/json:
+              examples:
+                Internal Server Error:
+                  value:
+                    error:
+                      code: "500"
+                      message: internal server error
+                    id: request-id
+                    message: message
+                    status: ERROR
+                    store:
+                      code: store-code
+                      id: store-id
+                    success: false
+                    timestamp: 1234567890
+              schema:
+                $ref: '#/components/schemas/updateStockLevel_500_response'
+          description: Internal Server Error
+      summary: Update Stock Level
+      tags:
+      - Inventories
+  /accounts:
+    post:
+      description: |-
+        | Field | Description |
+        | --- | --- |
+        | `id` | UUID. |
+        | `object` | string. ACCOUNT |
+        | action | string. CONNECT, DISCONNECT, RECONNECT |
+        | accounts | account credential object |
+
+        account object
+
+        | **Field** | **Description** |
+        | --- | --- |
+        | data | encrypted credential data |
+      operationId: accounts
+      parameters:
+      - description: Request's signature
+        explode: false
+        in: header
+        name: signature
+        required: false
+        schema:
+          example: ""
+          type: string
+        style: simple
+      - description: Request's signature time
+        explode: false
+        in: header
+        name: signature-time
+        required: false
+        schema:
+          example: ""
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Accounts:
+                value:
+                  accounts:
+                  - data: encrypted data
+                  action: CONNECT
+                  id: request-id
+                  object: ACCOUNT
+            schema:
+              $ref: '#/components/schemas/accounts_request'
+      responses:
+        "200":
+          description: ""
+      summary: Accounts
+  /products:
+    post:
+      description: |-
+        Top level
+
+        | **Field** | **Description** |
+        | --- | --- |
+        | id | string. UUID. |
+        | object | string. PRODUCT. |
+        | action | string. CREATE. |
+        | products | An array of product object. |
+
+        `product` object
+
+        | **Field** | **Description** |
+        | --- | --- |
+        |  |  |
+      operationId: products
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Products:
+                value:
+                  action: CREATE
+                  id: request-id
+                  object: PRODUCT
+                  products:
+                  - id: product-id
+                    name: product name
+            schema:
+              $ref: '#/components/schemas/products_request'
+      responses:
+        "200":
+          description: ""
+      summary: Products
+  /sales-orders:
+    post:
+      description: |-
+        Top level
+
+        | **Field** | **Description** |
+        | --- | --- |
+        | id | string. UUID. |
+        | object | string. PRODUCT. |
+        | action | string. CREATE. |
+        | sales_orders | An array of sales order object. |
+
+        sales order object
+
+        | **Field** | **Description** |
+        | --- | --- |
+        |  |  |
+      operationId: salesOrders
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Sales Orders:
+                value:
+                  action: CREATE
+                  id: request-id
+                  object: SALES_ORDER
+                  sales_orders:
+                  - channel_id: channel-sales-order-id
+                    date: 1234567890
+                    id: sales-order-id
+            schema:
+              $ref: '#/components/schemas/salesOrders_request'
+      responses:
+        "200":
+          description: ""
+      summary: Sales Orders
+  /delivery-orders:
+    post:
+      description: |-
+        Top level
+
+        | **Field** | **Description** |
+        | --- | --- |
+        | id | string. UUID. |
+        | object | string. DELIVERY_ORDER. |
+        | action | string. CREATE. |
+        | delivery_orders | An array of delivery_order object. |
+
+        delivery_order object
+
+        | **Field** | **Description** |
+        | --- | --- |
+        |  |  |
+      operationId: deliveryOrders
+      parameters:
+      - explode: false
+        in: header
+        name: signature
+        required: false
+        schema:
+          example: ""
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Delivery Orders:
+                value:
+                  action: CREATE
+                  delivery_orders:
+                  - channel_id: channel-delivery-order-id
+                    channel_sales_order_id: channel-sales-order-id
+                    date: 1234567890
+                    id: delivery-order-id
+                    sales_order_id: sales-order-id
+                  id: request-id
+                  object: DELIVERY_ORDER
+            schema:
+              $ref: '#/components/schemas/deliveryOrders_request'
+      responses:
+        "200":
+          description: ""
+      summary: Delivery Orders
+components:
+  schemas:
+    products_request_products_inner:
+      properties:
+        id:
+          example: product-id
+          type: string
+        name:
+          example: product name
+          type: string
+      type: object
+    updateStockLevel_429_response:
+      example:
+        success: false
+        id: request-id
+        store:
+          code: store-code
+          id: store-id
+        error:
+          code: "429"
+          message: too many requests
+        message: message
+        status: ERROR
+        timestamp: 1234567890
+      properties:
+        error:
+          $ref: '#/components/schemas/updateStockLevel_429_response_error'
+        id:
+          example: request-id
+          type: string
+        message:
+          example: message
+          type: string
+        status:
+          example: ERROR
+          type: string
+        store:
+          $ref: '#/components/schemas/updateStockLevel_request_store'
+        success:
+          example: false
+          type: boolean
+        timestamp:
+          example: 1234567890
+          type: number
+      type: object
+    updateStockLevel_400_response:
+      example:
+        success: false
+        id: request-id
+        store:
+          code: store-code
+          id: store-id
+        error:
+          code: "400"
+          message: bad request
+        message: message
+        status: ERROR
+        timestamp: 1234567890
+      properties:
+        error:
+          $ref: '#/components/schemas/updateStockLevel_400_response_error'
+        id:
+          example: request-id
+          type: string
+        message:
+          example: message
+          type: string
+        status:
+          example: ERROR
+          type: string
+        store:
+          $ref: '#/components/schemas/updateStockLevel_request_store'
+        success:
+          example: false
+          type: boolean
+        timestamp:
+          example: 1234567890
+          type: number
+      type: object
+    updateStockLevel_request_requests_inner:
+      properties:
+        channel_location_code:
+          example: channel-location-code
+          type: string
+        channel_location_id:
+          example: channel-location-id
+          type: string
+        channel_product_id:
+          example: channel-product-id
+          type: string
+        channel_product_variant_id:
+          example: channel-product-variant-id
+          type: string
+        channel_product_variant_sku:
+          example: channel-product-variant-sku
+          type: string
+        delta_stock:
+          example: -1
+          type: number
+        exact_stock:
+          example: 100
+          type: number
+        location_code:
+          example: location-code
+          type: string
+        location_id:
+          example: location-id
+          type: string
+        product_id:
+          example: product-id
+          type: string
+        product_variant_id:
+          example: product-variant-id
+          type: string
+        product_variant_sku:
+          example: product-variant-sku
+          type: string
+      type: object
+    deliveryOrders_request_delivery_orders_inner:
+      properties:
+        channel_id:
+          example: channel-delivery-order-id
+          type: string
+        channel_sales_order_id:
+          example: channel-sales-order-id
+          type: string
+        date:
+          example: 1234567890
+          type: number
+        id:
+          example: delivery-order-id
+          type: string
+        sales_order_id:
+          example: sales-order-id
+          type: string
+      type: object
+    salesOrders_request_sales_orders_inner:
+      properties:
+        channel_id:
+          example: channel-sales-order-id
+          type: string
+        date:
+          example: 1234567890
+          type: number
+        id:
+          example: sales-order-id
+          type: string
+      type: object
+    deliveryOrders_request:
+      properties:
+        action:
+          example: CREATE
+          type: string
+        delivery_orders:
+          example:
+          - channel_id: channel-delivery-order-id
+            channel_sales_order_id: channel-sales-order-id
+            date: 1234567890
+            id: delivery-order-id
+            sales_order_id: sales-order-id
+          items:
+            $ref: '#/components/schemas/deliveryOrders_request_delivery_orders_inner'
+          type: array
+        id:
+          example: request-id
+          type: string
+        object:
+          example: DELIVERY_ORDER
+          type: string
+      type: object
+    updateStockLevel_200_response_results_inner:
+      properties:
+        channel_location_code:
+          example: channel-location-code
+          type: string
+        channel_location_id:
+          example: channel-location-id
+          type: string
+        channel_product_id:
+          example: channel-product-id
+          type: string
+        channel_product_variant_id:
+          example: channel-product-variant-id
+          type: string
+        channel_product_variant_sku:
+          example: channel-product-variant-sku
+          type: string
+        location_code:
+          example: location-code
+          type: string
+        location_id:
+          example: locaiton-id
+          type: string
+        message:
+          example: message
+          type: string
+        product_id:
+          example: product-id
+          type: string
+        product_variant_id:
+          example: product-variant-id
+          type: string
+        product_variant_sku:
+          example: product-variant-sku
+          type: string
+        status:
+          example: status
+          type: string
+        success:
+          example: true
+          type: boolean
+        timestamp:
+          example: 1234567890
+          type: number
+      type: object
+    updateStockLevel_400_response_error:
+      example:
+        code: "400"
+        message: bad request
+      properties:
+        code:
+          example: "400"
+          type: string
+        message:
+          example: bad request
+          type: string
+      type: object
+    updateStockLevel_200_response_error:
+      example:
+        code: error-code
+        message: message
+      properties:
+        code:
+          example: error-code
+          type: string
+        message:
+          example: message
+          type: string
+      type: object
+    products_request:
+      properties:
+        action:
+          example: CREATE
+          type: string
+        id:
+          example: request-id
+          type: string
+        object:
+          example: PRODUCT
+          type: string
+        products:
+          example:
+          - id: product-id
+            name: product name
+          items:
+            $ref: '#/components/schemas/products_request_products_inner'
+          type: array
+      type: object
+    salesOrders_request:
+      properties:
+        action:
+          example: CREATE
+          type: string
+        id:
+          example: request-id
+          type: string
+        object:
+          example: SALES_ORDER
+          type: string
+        sales_orders:
+          example:
+          - channel_id: channel-sales-order-id
+            date: 1234567890
+            id: sales-order-id
+          items:
+            $ref: '#/components/schemas/salesOrders_request_sales_orders_inner'
+          type: array
+      type: object
+    updateStockLevel_429_response_error:
+      example:
+        code: "429"
+        message: too many requests
+      properties:
+        code:
+          example: "429"
+          type: string
+        message:
+          example: too many requests
+          type: string
+      type: object
+    updateStockLevel_500_response:
+      example:
+        success: false
+        id: request-id
+        store:
+          code: store-code
+          id: store-id
+        error:
+          code: "500"
+          message: internal server error
+        message: message
+        status: ERROR
+        timestamp: 1234567890
+      properties:
+        error:
+          $ref: '#/components/schemas/updateStockLevel_500_response_error'
+        id:
+          example: request-id
+          type: string
+        message:
+          example: message
+          type: string
+        status:
+          example: ERROR
+          type: string
+        store:
+          $ref: '#/components/schemas/updateStockLevel_request_store'
+        success:
+          example: false
+          type: boolean
+        timestamp:
+          example: 1234567890
+          type: number
+      type: object
+    updateStockLevel_500_response_error:
+      example:
+        code: "500"
+        message: internal server error
+      properties:
+        code:
+          example: "500"
+          type: string
+        message:
+          example: internal server error
+          type: string
+      type: object
+    updateStockLevel_200_response:
+      example:
+        success: true
+        id: request-id
+        store:
+          code: store-code
+          id: store-id
+        error:
+          code: error-code
+          message: message
+        message: message
+        results:
+        - channel_location_code: channel-location-code
+          channel_location_id: channel-location-id
+          channel_product_id: channel-product-id
+          channel_product_variant_id: channel-product-variant-id
+          channel_product_variant_sku: channel-product-variant-sku
+          location_code: location-code
+          location_id: locaiton-id
+          message: message
+          product_id: product-id
+          product_variant_id: product-variant-id
+          product_variant_sku: product-variant-sku
+          status: status
+          success: true
+          timestamp: 1234567890
+        status: COMPLETED
+        timestamp: 9876543210
+      properties:
+        error:
+          $ref: '#/components/schemas/updateStockLevel_200_response_error'
+        id:
+          example: request-id
+          type: string
+        message:
+          example: message
+          type: string
+        results:
+          example:
+          - channel_location_code: channel-location-code
+            channel_location_id: channel-location-id
+            channel_product_id: channel-product-id
+            channel_product_variant_id: channel-product-variant-id
+            channel_product_variant_sku: channel-product-variant-sku
+            location_code: location-code
+            location_id: locaiton-id
+            message: message
+            product_id: product-id
+            product_variant_id: product-variant-id
+            product_variant_sku: product-variant-sku
+            status: status
+            success: true
+            timestamp: 1234567890
+          items:
+            $ref: '#/components/schemas/updateStockLevel_200_response_results_inner'
+          type: array
+        status:
+          example: COMPLETED
+          type: string
+        store:
+          $ref: '#/components/schemas/updateStockLevel_request_store'
+        success:
+          example: true
+          type: boolean
+        timestamp:
+          example: 9876543210
+          type: number
+      type: object
+    accounts_request:
+      properties:
+        accounts:
+          example:
+          - data: encrypted data
+          items:
+            $ref: '#/components/schemas/accounts_request_accounts_inner'
+          type: array
+        action:
+          example: CONNECT
+          type: string
+        id:
+          example: request-id
+          type: string
+        object:
+          example: ACCOUNT
+          type: string
+      type: object
+    updateStockLevel_request_store:
+      example:
+        code: store-code
+        id: store-id
+      properties:
+        code:
+          example: store-code
+          type: string
+        id:
+          example: store-id
+          type: string
+      type: object
+    accounts_request_accounts_inner:
+      properties:
+        data:
+          example: encrypted data
+          type: string
+      type: object
+    updateStockLevel_request:
+      properties:
+        id:
+          example: request-id
+          type: string
+        requests:
+          example:
+          - channel_location_code: channel-location-code
+            channel_location_id: channel-location-id
+            channel_product_id: channel-product-id
+            channel_product_variant_id: channel-product-variant-id
+            channel_product_variant_sku: channel-product-variant-sku
+            delta_stock: -1
+            exact_stock: 100
+            location_code: location-code
+            location_id: location-id
+            product_id: product-id
+            product_variant_id: product-variant-id
+            product_variant_sku: product-variant-sku
+          items:
+            $ref: '#/components/schemas/updateStockLevel_request_requests_inner'
+          type: array
+        store:
+          $ref: '#/components/schemas/updateStockLevel_request_store'
+      type: object
