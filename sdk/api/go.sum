@@ -12,6 +12,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dhimasan0206/adapter/sdk/server v0.0.0-20250314043448-8cf9f3dc9bb0 h1:iaVGwMC8MkBgEHXpKc15eJ9Re6R/aL1oQ/bkmUI10xE=
+github.com/dhimasan0206/adapter/sdk/server v0.0.0-20250314043448-8cf9f3dc9bb0/go.mod h1:m8WdyxUhdUeIddT6zMzG6GrkAoICoI9vFUuAMYaoEZI=
 github.com/dhimasan0206/tracing v0.1.0 h1:bM138nL9Tfq1JK2LNCTj44S7jezG3zl/yYQN4fV3hgc=
 github.com/dhimasan0206/tracing v0.1.0/go.mod h1:LKLaxELBIMjpWbea5EsOXkj605VEH4wZolc0bj2kIZQ=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=

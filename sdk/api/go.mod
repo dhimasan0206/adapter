@@ -2,12 +2,8 @@ module github.com/dhimasan0206/adapter/sdk/api
 
 go 1.24.0
 
-replace github.com/dhimasan0206/adapter/sdk/client => ../client
-
-replace github.com/dhimasan0206/adapter/sdk/server => ../server
-
 require (
-	github.com/dhimasan0206/adapter/sdk/server v0.0.0-00010101000000-000000000000
+	github.com/dhimasan0206/adapter/sdk/server v0.0.0-20250314043448-8cf9f3dc9bb0
 	github.com/dhimasan0206/tracing v0.1.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
