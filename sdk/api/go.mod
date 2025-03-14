@@ -6,6 +6,7 @@ require (
 	github.com/dhimasan0206/adapter/sdk/server v0.0.0-20250314043448-8cf9f3dc9bb0
 	github.com/dhimasan0206/tracing v0.1.0
 	github.com/gin-gonic/gin v1.10.0
+	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.6.0
 	github.com/spf13/viper v1.19.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.60.0

@@ -6,7 +6,10 @@ import (
 	"github.com/dhimasan0206/tracing"
 )
 
-type InventoryRepository interface{}
+//go:generate mockgen -source ./inventory.go -destination ./test/mocks/mock_inventory.go -package=mocks
+type InventoryRepository interface {
+	UpdateStockLevel(ctx context.Context, req UpdateStockLevelRequest) (*UpdateStockLevelResponse, error)
+}
 
 type InventoryService interface {
 	UpdateStockLevel(ctx context.Context, req UpdateStockLevelRequest) (*UpdateStockLevelResponse, error)
@@ -31,5 +34,15 @@ func NewInventoryService(inventoryRepository InventoryRepository) InventoryServi
 }
 
 func (s *inventoryService) UpdateStockLevel(ctx context.Context, req UpdateStockLevelRequest) (*UpdateStockLevelResponse, error) {
-	return nil, nil
+	s.Logger.Info("InventoryService: update stock level: start", "request", req)
+	ctx, span := s.Tracer.Start(ctx, "InventoryService: update stock level")
+	defer span.End()
+	resp, err := s.inventoryRepository.UpdateStockLevel(ctx, req)
+	if err != nil {
+		s.Logger.Error("InventoryService: update stock level: failed", "error", err)
+		tracing.RecordError(ctx, err)
+		return nil, err
+	}
+	s.Logger.Info("InventoryService: update stock level: success", "response", resp)
+	return resp, nil
 }
