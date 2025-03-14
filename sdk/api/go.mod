@@ -1,4 +1,4 @@
-module github.com/dhimasan0206/adapter/api
+module github.com/dhimasan0206/adapter/sdk/api
 
 go 1.24.0
 
